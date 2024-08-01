@@ -1,0 +1,8 @@
+//
+// Created by Changjoon Lee on 8/1/24.
+//
+
+#ifndef CHEWINGCPP_CUSTOMSTRING_H
+#define CHEWINGCPP_CUSTOMSTRING_H
+
+#endif //CHEWINGCPP_CUSTOMSTRING_H
