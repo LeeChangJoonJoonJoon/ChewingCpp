@@ -47,9 +47,7 @@ void CustomString::CopyString(char* _target_str, const char* _str_to_cpy)
 
     int i_str_len = GetStrLenth(_str_to_cpy);
     for (int i = 0; i < i_str_len; i++)
-    {
         _target_str[i] = _str_to_cpy[i];
-    }
 }
 
 const char* CustomString::GetString()
@@ -86,4 +84,25 @@ void CustomString::operator+=(const char* _sParam)
         s_tmp[i_str_len_of_m + i] = _sParam[i];
 
     m_psData = s_tmp;
+}
+
+bool CustomString::Contains(const char* _sParam)
+{
+    const int i_str_len_of_m = GetStrLenth(m_psData);
+    const int i_str_len_of_param = GetStrLenth(_sParam);
+
+    if (i_str_len_of_m < i_str_len_of_param) return false;
+
+    for (int i = 0; i < i_str_len_of_m; i++)
+    {
+        if (_sParam[0] != m_psData[i]) continue;
+        if (i + i_str_len_of_param > i_str_len_of_m) return false;
+
+        for (int j = 0; j < i_str_len_of_param; j++)
+            if (_sParam[j] != m_psData[i + j]) return false;
+
+        return true;
+    }
+
+    return false;
 }

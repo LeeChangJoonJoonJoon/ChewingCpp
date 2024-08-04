@@ -54,6 +54,8 @@ public:
     // CustomString s_test =+ "string"의 상황에서 쓰인다.
     void operator+=(const char* _sParam);
 
+    bool Contains(const char* _sParam);
+
 private:
     char* m_psData{nullptr};
 
