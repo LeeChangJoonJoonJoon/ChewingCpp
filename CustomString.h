@@ -18,12 +18,12 @@ public:
     CustomString(const char* _sParam);
     CustomString(char _sParam);
 
-    [[nodiscard]] inline int GetStrLenth(const char* _sParam)
+    [[nodiscard]] static inline int GetStrLenth(const char* _sParam)
     {
         int i_index = 0;
         while (1)
         {
-            if (CustomString::str_back_slash_zero == _sParam[i_index])
+            if (CustomString::s_back_slash_zero == _sParam[i_index])
                 break;
             /*
              * ++i는 lval, i_index++은 rval.
@@ -51,11 +51,14 @@ public:
 //    void SetString(const char _sParam);
     void SetString(char _sParam);
 
+    // CustomString s_test =+ "string"의 상황에서 쓰인다.
+    void operator+=(const char* _sParam);
+
 private:
     char* m_psData{nullptr};
 
 public:
-    static const char str_back_slash_zero = '\0';
+    static const char s_back_slash_zero = '\0';
 };
 
 #endif //CHEWINGCPP_CUSTOMSTRING_H

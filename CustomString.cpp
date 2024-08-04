@@ -73,3 +73,17 @@ void CustomString::SetString(char _sParam)
     CopyString(m_psData, s_input);
 }
 
+void CustomString::operator+=(const char* _sParam)
+{
+    char* s_tmp = new char;
+
+    const int i_str_len_of_m = GetStrLenth(m_psData);
+    for (int i = 0; i < i_str_len_of_m; i++)
+        s_tmp[i] = m_psData[i];
+
+    const int i_str_len_of_param = GetStrLenth(_sParam);
+    for (int i = 0; i < i_str_len_of_param; i++)
+        s_tmp[i_str_len_of_m + i] = _sParam[i];
+
+    m_psData = s_tmp;
+}
