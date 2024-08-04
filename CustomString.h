@@ -53,6 +53,8 @@ public:
 
     // CustomString s_test =+ "string"의 상황에서 쓰인다.
     void operator+=(const char* _sParam);
+    // if (CustomString == "string")의 상황에서 쓰인다.
+    bool operator==(const char* _sParam);
 
     bool Contains(const char* _sParam);
 

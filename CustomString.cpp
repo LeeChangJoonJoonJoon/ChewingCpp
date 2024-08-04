@@ -4,6 +4,7 @@
 
 /*
  * TODO : strlen(), strcpy() 안쓰고 문자열을 관리하는 클래스 만들어 보기.
+ * TODO : 변환 생성자, 이동 생성자, 형변환 지원하기.
  */
 
 #include "CustomString.h"
@@ -84,6 +85,18 @@ void CustomString::operator+=(const char* _sParam)
         s_tmp[i_str_len_of_m + i] = _sParam[i];
 
     m_psData = s_tmp;
+}
+
+bool CustomString::operator==(const char* _sParam)
+{
+    const int i_str_len_of_m = GetStrLenth(m_psData);
+    const int i_str_len_of_param = GetStrLenth(_sParam);
+
+    if (i_str_len_of_m != i_str_len_of_param) return false;
+    for (int i = 0; i < i_str_len_of_m; i++)
+        if (m_psData[i] != _sParam[i]) return false;
+
+    return true;
 }
 
 bool CustomString::Contains(const char* _sParam)
