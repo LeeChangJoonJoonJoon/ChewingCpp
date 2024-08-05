@@ -5,6 +5,7 @@
 /*
  * TODO : strlen(), strcpy() 안쓰고 문자열을 관리하는 클래스 만들어 보기.
  * TODO : 변환 생성자, 이동 생성자, 형변환 지원하기.
+ * TODO : CustomString(const char*)에 explicit 붙이면 메인함수의 예제에 컴파일 에러 발생. 왜?
  */
 
 #include "CustomString.h"
@@ -42,13 +43,21 @@ CustomString::CustomString(const char* _sParam)
     CopyString(m_psData, _sParam);
 }
 
+CustomString::CustomString(const CustomString& _rhs)
+{
+    cout << "CustomString(const CustomString&)" << endl;
+
+    m_psData = new char;
+    CopyString(m_psData, _rhs.m_psData);
+}
+
 void CustomString::CopyString(char* _target_str, const char* _str_to_cpy)
 {
     if (!_target_str) return;
 
     int i_str_len = GetStrLenth(_str_to_cpy);
     for (int i = 0; i < i_str_len; i++)
-        _target_str[i] = _str_to_cpy[i];
+        _target_str[i] = _str_to_cpy[i]; // Pointer may be null when called from function 'CustomString'
 }
 
 const char* CustomString::GetString()
@@ -87,6 +96,7 @@ void CustomString::operator+=(const char* _sParam)
     m_psData = s_tmp;
 }
 
+/*
 bool CustomString::operator==(const char* _sParam)
 {
     const int i_str_len_of_m = GetStrLenth(m_psData);
@@ -97,6 +107,32 @@ bool CustomString::operator==(const char* _sParam)
         if (m_psData[i] != _sParam[i]) return false;
 
     return true;
+}
+*/
+
+bool CustomString::operator==(const CustomString& _rhs) // 변환생성의 결과인 CustomString의 우측값을 참조.
+{
+    const int i_str_len_of_m = GetStrLenth(m_psData);
+    const int i_str_len_of_param = GetStrLenth(_rhs.m_psData);
+
+    if (i_str_len_of_m != i_str_len_of_param) return false;
+    for (int i = 0; i < i_str_len_of_m; i++)
+        if (m_psData[i] != _rhs.m_psData[i]) return false;
+
+    return true;
+}
+
+// CustomString이랑 const char*랑 비교하는 건 필요 없음. 어차피 변환생성으로 지원하면 됨.
+bool CustomString::operator==(const CustomString&& _rhs) // 변환생성의 결과인 CustomString의 우측값을 참조.
+{
+    const CustomString& tmp = _rhs;
+    return *this == tmp;
+}
+
+CustomString& CustomString::operator=(const char* _sParam)
+{
+    CopyString(m_psData, _sParam);
+    return *this;
 }
 
 bool CustomString::Contains(const char* _sParam)

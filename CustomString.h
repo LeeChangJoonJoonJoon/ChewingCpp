@@ -16,7 +16,9 @@ public:
     ~CustomString();
 
     CustomString(const char* _sParam);
+//    explicit CustomString(const char* _sParam);
     CustomString(char _sParam);
+    CustomString(const CustomString& _rhs);
 
     [[nodiscard]] static inline int GetStrLenth(const char* _sParam)
     {
@@ -51,10 +53,10 @@ public:
 //    void SetString(const char _sParam);
     void SetString(char _sParam);
 
-    // CustomString s_test =+ "string"의 상황에서 쓰인다.
     void operator+=(const char* _sParam);
-    // if (CustomString == "string")의 상황에서 쓰인다.
-    bool operator==(const char* _sParam);
+    bool operator==(const CustomString& _rhs);
+    bool operator==(const CustomString&& _rhs);
+    CustomString& operator=(const char* _sParam);
 
     bool Contains(const char* _sParam);
 
