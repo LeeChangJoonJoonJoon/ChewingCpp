@@ -5,10 +5,6 @@
 #ifndef CHEWINGCPP_CUSTOMSTRING_H
 #define CHEWINGCPP_CUSTOMSTRING_H
 
-#include "bits/stdc++.h"
-#include <iostream>
-using namespace std;
-
 class CustomString
 {
 public:
@@ -19,7 +15,7 @@ public:
     CustomString(char _sParam);
     CustomString(const CustomString& _rhs);
 
-    [[nodiscard]] static inline int GetStrLenth(const char* _sParam)
+    [[nodiscard]] static inline int GetStrLen(const char* _sParam)
     {
         int i_index = 0;
         while (1)
@@ -49,7 +45,6 @@ public:
      *
      */
     void SetString(const char* _sParam);
-//    void SetString(const char _sParam);
     void SetString(char _sParam);
 
     void operator+=(const char* _sParam);
@@ -61,7 +56,7 @@ public:
     bool operator>(const CustomString& _rhs);
     bool operator>(const CustomString&& _rhs);
 
-    bool Contains(const char* _sParam);
+    bool Contains(const char* _sParam) const;
 
 private:
     char* m_psData{nullptr};

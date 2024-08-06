@@ -3,12 +3,13 @@
 //
 
 /*
- * TODO : strlen(), strcpy() 안쓰고 문자열을 관리하는 클래스 만들어 보기.
- * TODO : 변환 생성자, 이동 생성자, 형변환 지원하기.
- * TODO : CustomString(const char*)에 explicit 붙이면 메인함수의 예제에 컴파일 에러 발생. 왜?
+ * TODO : CopyString(char*, const char)을 호출하기 전에 첫번째 문자열을 new char;로 할당하고 거기에 길이에 상관 없이 문자를 대입해도 되는걸까?
  */
 
 #include "CustomString.h"
+#include "bits/stdc++.h"
+#include <iostream>
+using namespace std;
 
 CustomString::CustomString()
 {
@@ -28,18 +29,20 @@ CustomString::CustomString(char _sParam)
 {
     cout << "CustomString(char)" << endl;
 
-    m_psData = new char;
-    char* s_input = new char;
+    m_psData = new char[2];
+
+    char* s_input = new char[2];
     s_input[0] = _sParam;
 
-    CopyString(m_psData, s_input);
+//    CopyString(m_psData, s_input);
+    m_psData = s_input;
 }
 
 CustomString::CustomString(const char* _sParam)
 {
     cout << "CustomString(const char*)" << endl;
 
-    m_psData = new char;
+    m_psData = new char[GetStrLen(_sParam) + 1];
     CopyString(m_psData, _sParam);
 }
 
@@ -47,7 +50,7 @@ CustomString::CustomString(const CustomString& _rhs)
 {
     cout << "CustomString(const CustomString&)" << endl;
 
-    m_psData = new char;
+    m_psData = new char[GetStrLen(_rhs.m_psData) + 1];
     CopyString(m_psData, _rhs.m_psData);
 }
 
@@ -55,8 +58,7 @@ void CustomString::CopyString(char* _target_str, const char* _str_to_cpy)
 {
     if (!_target_str) return;
 
-    int i_str_len = GetStrLenth(_str_to_cpy);
-    for (int i = 0; i < i_str_len; i++)
+    for (int i = 0; i < GetStrLen(_str_to_cpy); i++)
         _target_str[i] = _str_to_cpy[i]; // Pointer may be null when called from function 'CustomString'
 }
 
@@ -70,52 +72,43 @@ const char* CustomString::GetString()
 
 void CustomString::SetString(const char* _sParam)
 {
+    if (m_psData) delete[] m_psData;
+    m_psData = new char[GetStrLen(_sParam) + 1];
+
     CopyString(m_psData, _sParam);
 }
 
 void CustomString::SetString(char _sParam)
 {
-    char* s_input = new char;
-    s_input[0] = _sParam;
+    if (m_psData) delete[] m_psData;
 
-    CopyString(m_psData, s_input);
+    m_psData = new char[2];
+    m_psData[0] = _sParam;
 }
 
 void CustomString::operator+=(const char* _sParam)
 {
-    char* s_tmp = new char;
+    const int i_str_len_of_m = GetStrLen(m_psData);
+    const int i_str_len_of_param = GetStrLen(_sParam);
+    char* s_tmp = new char[i_str_len_of_m + i_str_len_of_param + 1];
 
-    const int i_str_len_of_m = GetStrLenth(m_psData);
     for (int i = 0; i < i_str_len_of_m; i++)
         s_tmp[i] = m_psData[i];
 
-    const int i_str_len_of_param = GetStrLenth(_sParam);
     for (int i = 0; i < i_str_len_of_param; i++)
         s_tmp[i_str_len_of_m + i] = _sParam[i];
 
+    delete[] m_psData;
     m_psData = s_tmp;
 }
 
-/*
-bool CustomString::operator==(const char* _sParam)
-{
-    const int i_str_len_of_m = GetStrLenth(m_psData);
-    const int i_str_len_of_param = GetStrLenth(_sParam);
-
-    if (i_str_len_of_m != i_str_len_of_param) return false;
-    for (int i = 0; i < i_str_len_of_m; i++)
-        if (m_psData[i] != _sParam[i]) return false;
-
-    return true;
-}
-*/
-
 bool CustomString::operator==(const CustomString& _rhs)
 {
-    const int i_str_len_of_m = GetStrLenth(m_psData);
-    const int i_str_len_of_param = GetStrLenth(_rhs.m_psData);
+    const int i_str_len_of_m = GetStrLen(m_psData);
+    const int i_str_len_of_param = GetStrLen(_rhs.m_psData);
 
     if (i_str_len_of_m != i_str_len_of_param) return false;
+
     for (int i = 0; i < i_str_len_of_m; i++)
         if (m_psData[i] != _rhs.m_psData[i]) return false;
 
@@ -130,6 +123,8 @@ bool CustomString::operator==(const CustomString&& _rhs) // 변환생성의 결�
 
 CustomString& CustomString::operator=(const char* _sParam)
 {
+    if (m_psData) delete[] m_psData;
+
     CopyString(m_psData, _sParam);
     return *this;
 }
@@ -137,8 +132,8 @@ CustomString& CustomString::operator=(const char* _sParam)
 bool CustomString::operator<(const CustomString& _rhs) // this가 왼쪽일지 오른쪽일지 어떻게 알고 이렇게 짠 거지??? -> 오른쪽에 있는 객체가 인수로 들어온다...
 {
     if (*this == _rhs) return false;
-    const int i_str_len_of_m = GetStrLenth(m_psData);
-    const int i_str_len_of_param = GetStrLenth(_rhs.m_psData);
+    const int i_str_len_of_m = GetStrLen(m_psData);
+    const int i_str_len_of_param = GetStrLen(_rhs.m_psData);
 
     const int i_str_len_of_shortest = i_str_len_of_m < i_str_len_of_param ?
                                       i_str_len_of_m : i_str_len_of_param;
@@ -170,10 +165,10 @@ bool CustomString::operator>(const CustomString&& _rhs)
     return *this > _rhs;
 }
 
-bool CustomString::Contains(const char* _sParam)
+bool CustomString::Contains(const char* _sParam) const
 {
-    const int i_str_len_of_m = GetStrLenth(m_psData);
-    const int i_str_len_of_param = GetStrLenth(_sParam);
+    const int i_str_len_of_m = GetStrLen(m_psData);
+    const int i_str_len_of_param = GetStrLen(_sParam);
 
     if (i_str_len_of_m < i_str_len_of_param) return false;
 
