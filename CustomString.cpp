@@ -125,7 +125,6 @@ bool CustomString::operator==(const CustomString& _rhs)
 // CustomString이랑 const char*랑 비교하는 건 필요 없음. 어차피 변환생성으로 지원하면 됨.
 bool CustomString::operator==(const CustomString&& _rhs) // 변환생성의 결과인 CustomString의 우측값을 참조.
 {
-//    const CustomString& tmp = _rhs;
     return *this == _rhs;
 }
 
@@ -157,19 +156,18 @@ bool CustomString::operator<(const CustomString& _rhs) // this가 왼쪽일지 �
 
 bool CustomString::operator<(const CustomString&& _rhs)
 {
-
-    return false;
+    return *this < _rhs;
 }
 
 bool CustomString::operator>(const CustomString& _rhs)
 {
     if (*this == _rhs) return false;
-    return false;
+    return !(*this < _rhs);
 }
 
 bool CustomString::operator>(const CustomString&& _rhs)
 {
-    return false;
+    return *this > _rhs;
 }
 
 bool CustomString::Contains(const char* _sParam)

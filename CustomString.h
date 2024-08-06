@@ -16,7 +16,6 @@ public:
     ~CustomString();
 
     CustomString(const char* _sParam);
-//    explicit CustomString(const char* _sParam);
     CustomString(char _sParam);
     CustomString(const CustomString& _rhs);
 
