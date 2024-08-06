@@ -57,6 +57,10 @@ public:
     bool operator==(const CustomString& _rhs);
     bool operator==(const CustomString&& _rhs);
     CustomString& operator=(const char* _sParam);
+    bool operator<(const CustomString& _rhs);
+    bool operator<(const CustomString&& _rhs);
+    bool operator>(const CustomString& _rhs);
+    bool operator>(const CustomString&& _rhs);
 
     bool Contains(const char* _sParam);
 

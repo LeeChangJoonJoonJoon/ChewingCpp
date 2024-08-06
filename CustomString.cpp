@@ -110,7 +110,7 @@ bool CustomString::operator==(const char* _sParam)
 }
 */
 
-bool CustomString::operator==(const CustomString& _rhs) // 변환생성의 결과인 CustomString의 우측값을 참조.
+bool CustomString::operator==(const CustomString& _rhs)
 {
     const int i_str_len_of_m = GetStrLenth(m_psData);
     const int i_str_len_of_param = GetStrLenth(_rhs.m_psData);
@@ -125,14 +125,51 @@ bool CustomString::operator==(const CustomString& _rhs) // 변환생성의 결�
 // CustomString이랑 const char*랑 비교하는 건 필요 없음. 어차피 변환생성으로 지원하면 됨.
 bool CustomString::operator==(const CustomString&& _rhs) // 변환생성의 결과인 CustomString의 우측값을 참조.
 {
-    const CustomString& tmp = _rhs;
-    return *this == tmp;
+//    const CustomString& tmp = _rhs;
+    return *this == _rhs;
 }
 
 CustomString& CustomString::operator=(const char* _sParam)
 {
     CopyString(m_psData, _sParam);
     return *this;
+}
+
+bool CustomString::operator<(const CustomString& _rhs) // this가 왼쪽일지 오른쪽일지 어떻게 알고 이렇게 짠 거지??? -> 오른쪽에 있는 객체가 인수로 들어온다...
+{
+    if (*this == _rhs) return false;
+    const int i_str_len_of_m = GetStrLenth(m_psData);
+    const int i_str_len_of_param = GetStrLenth(_rhs.m_psData);
+
+    const int i_str_len_of_shortest = i_str_len_of_m < i_str_len_of_param ?
+                                      i_str_len_of_m : i_str_len_of_param;
+
+    for (int i = 0; i < i_str_len_of_shortest; i++)
+    {
+        if (m_psData[i] == _rhs.m_psData[i]) continue;
+        if (m_psData[i] < _rhs.m_psData[i]) return true;
+    }
+
+    if (i_str_len_of_m < i_str_len_of_param) return true;
+
+    return false;
+}
+
+bool CustomString::operator<(const CustomString&& _rhs)
+{
+
+    return false;
+}
+
+bool CustomString::operator>(const CustomString& _rhs)
+{
+    if (*this == _rhs) return false;
+    return false;
+}
+
+bool CustomString::operator>(const CustomString&& _rhs)
+{
+    return false;
 }
 
 bool CustomString::Contains(const char* _sParam)
