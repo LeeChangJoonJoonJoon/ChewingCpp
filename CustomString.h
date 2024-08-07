@@ -48,6 +48,7 @@ public:
     void SetString(char _sParam);
 
     void operator+=(const char* _sParam);
+    void operator+=(char _sParam);
     bool operator==(const CustomString& _rhs);
     bool operator==(const CustomString&& _rhs);
     CustomString& operator=(const char* _sParam);

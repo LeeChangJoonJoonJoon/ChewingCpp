@@ -102,6 +102,13 @@ void CustomString::operator+=(const char* _sParam)
     m_psData = s_tmp;
 }
 
+void CustomString::operator+=(char _sParam)
+{
+    char* s_tmp = new char[1];
+    s_tmp[0] = _sParam;
+    *this += s_tmp;
+}
+
 bool CustomString::operator==(const CustomString& _rhs)
 {
     const int i_str_len_of_m = GetStrLen(m_psData);
