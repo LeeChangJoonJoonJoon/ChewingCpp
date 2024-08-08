@@ -5,4 +5,8 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(ChewingCpp main.cpp
         CustomString.h
-        CustomString.cpp)
+        CustomString.cpp
+        SLinkedList.h
+        SLinkedList.cpp
+        SNode.h
+        SNode.cpp)
