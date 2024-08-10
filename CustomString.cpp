@@ -193,3 +193,16 @@ bool CustomString::Contains(const char* _sParam) const
 
     return false;
 }
+
+void CustomString::Reserve(int _i_len)
+{
+    if (m_iCap > _i_len) return;
+
+    if (m_iCap * 2 > _i_len)
+        m_iCap *= 2;
+    else
+        m_iCap = _i_len + 1;
+
+    delete[] m_psData;
+    m_psData = new char[m_iCap];
+}

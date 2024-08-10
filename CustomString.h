@@ -35,6 +35,8 @@ public:
         return i_index;
     }
 
+    void Reserve(int _i_len);
+
     void CopyString(char* _target_str, const char* _str_to_cpy);
     [[nodiscard]] const char* GetString();
 
@@ -61,6 +63,7 @@ public:
 
 private:
     char* m_psData{nullptr};
+    int m_iCap{0};
 
 public:
     static const char s_back_slash_zero = '\0';
