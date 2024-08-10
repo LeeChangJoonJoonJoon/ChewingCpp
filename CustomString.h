@@ -35,7 +35,7 @@ public:
         return i_index;
     }
 
-    void Reserve(int _i_len);
+    void Reserve(int _i_str_len);
 
     void CopyString(char* _target_str, const char* _str_to_cpy);
     [[nodiscard]] const char* GetString();

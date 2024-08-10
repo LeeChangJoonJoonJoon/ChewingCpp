@@ -15,35 +15,40 @@ using namespace std;
 CustomString::CustomString()
 {
     cout << "CustomString()" << endl;
-
-    m_psData = new char;
 }
 
 CustomString::~CustomString()
 {
     cout << "~CustomString()" << endl;
 
-    delete[] m_psData;
+    if (m_psData)
+        delete[] m_psData;
 }
 
 CustomString::CustomString(char _sParam)
 {
     cout << "CustomString(char)" << endl;
 
-    m_psData = new char[2];
+//    m_psData = new char[2];
+//
+//    char* s_input = new char[2];
+//    s_input[0] = _sParam;
+//
+////    CopyString(m_psData, s_input);
+//    m_psData = s_input;
 
-    char* s_input = new char[2];
-    s_input[0] = _sParam;
-
-//    CopyString(m_psData, s_input);
-    m_psData = s_input;
+    Reserve(2);
+    m_psData[0] = _sParam;
 }
 
 CustomString::CustomString(const char* _sParam)
 {
     cout << "CustomString(const char*)" << endl;
 
-    m_psData = new char[GetStrLen(_sParam) + 1];
+//    m_psData = new char[GetStrLen(_sParam) + 1];
+//    CopyString(m_psData, _sParam);
+
+    Reserve(GetStrLen(_sParam));
     CopyString(m_psData, _sParam);
 }
 
@@ -194,15 +199,16 @@ bool CustomString::Contains(const char* _sParam) const
     return false;
 }
 
-void CustomString::Reserve(int _i_len)
+void CustomString::Reserve(int _i_str_len)
 {
-    if (m_iCap > _i_len) return;
+    if (m_iCap > _i_str_len) return;
 
-    if (m_iCap * 2 > _i_len)
+    if (m_iCap * 2 > _i_str_len)
         m_iCap *= 2;
     else
-        m_iCap = _i_len + 1;
+        m_iCap = _i_str_len + 1;
 
-    delete[] m_psData;
+    if (m_psData)
+        delete[] m_psData;
     m_psData = new char[m_iCap];
 }
