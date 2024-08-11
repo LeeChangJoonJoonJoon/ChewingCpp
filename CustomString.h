@@ -38,7 +38,7 @@ public:
     inline void Reserve(int _i_str_len);
 
     static inline void CopyString(char* _target_str, const char* _str_to_cpy);
-    [[nodiscard]] const char* GetString();
+    [[nodiscard]] const char* GetString() const;
 
     /*
      * SetString(const char)로 선언하면 _sParam is const-qualified in function declaration
@@ -51,13 +51,13 @@ public:
 
     void operator+=(const char* _sParam);
     void operator+=(char _sParam);
-    bool operator==(const CustomString& _rhs);
-    bool operator==(const CustomString&& _rhs);
+    bool operator==(const CustomString& _rhs) const;
+    bool operator==(const CustomString&& _rhs) const;
     CustomString& operator=(const char* _sParam);
-    bool operator<(const CustomString& _rhs);
-    bool operator<(const CustomString&& _rhs);
-    bool operator>(const CustomString& _rhs);
-    bool operator>(const CustomString&& _rhs);
+    bool operator<(const CustomString& _rhs) const;
+    bool operator<(const CustomString&& _rhs) const;
+    bool operator>(const CustomString& _rhs) const;
+    bool operator>(const CustomString&& _rhs) const;
 
     bool Contains(const char* _sParam) const;
 

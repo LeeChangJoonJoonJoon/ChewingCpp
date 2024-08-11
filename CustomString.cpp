@@ -65,7 +65,7 @@ void CustomString::CopyString(char* _target_str, const char* _str_to_cpy)
         _target_str[i] = _str_to_cpy[i]; // Pointer may be null when called from function 'CustomString'
 }
 
-const char* CustomString::GetString()
+const char* CustomString::GetString() const
 {
     if (m_psData)
         return m_psData;
@@ -87,15 +87,15 @@ void CustomString::SetString(char _sParam)
 
 void CustomString::operator+=(const char* _sParam)
 {
-    int i_str_num_member = GetStrLen(m_psData);
+    int i_str_num_m = GetStrLen(m_psData);
     int i_str_num_param = GetStrLen(_sParam);
 
-    char* s_tmp = new char[i_str_num_member];
+    char* s_tmp = new char[i_str_num_m];
     CopyString(s_tmp, m_psData);
-    Reserve(i_str_num_member + i_str_num_param);
+    Reserve(i_str_num_m + i_str_num_param);
 
     CopyString(m_psData, s_tmp);
-    CopyString(&m_psData[i_str_num_member], _sParam);
+    CopyString(&m_psData[i_str_num_m], _sParam);
 }
 
 void CustomString::operator+=(char _sParam)
@@ -108,34 +108,30 @@ void CustomString::operator+=(char _sParam)
     m_psData[GetStrLen(m_psData)] = _sParam;
 }
 
-bool CustomString::operator==(const CustomString& _rhs)
+bool CustomString::operator==(const CustomString& _rhs) const
 {
-    const int i_str_len_of_m = GetStrLen(m_psData);
-    const int i_str_len_of_param = GetStrLen(_rhs.m_psData);
+    if (GetStrLen(m_psData) != GetStrLen(_rhs.m_psData)) return false;
 
-    if (i_str_len_of_m != i_str_len_of_param) return false;
-
-    for (int i = 0; i < i_str_len_of_m; i++)
+    for (int i = 0; i < GetStrLen(m_psData); i++)
         if (m_psData[i] != _rhs.m_psData[i]) return false;
 
     return true;
 }
 
 // CustomString이랑 const char*랑 비교하는 건 필요 없음. 어차피 변환생성으로 지원하면 됨.
-bool CustomString::operator==(const CustomString&& _rhs) // 변환생성의 결과인 CustomString의 우측값을 참조.
+bool CustomString::operator==(const CustomString&& _rhs) const // 변환생성의 결과인 CustomString의 우측값을 참조.
 {
     return *this == _rhs;
 }
 
 CustomString& CustomString::operator=(const char* _sParam)
 {
-    if (m_psData) delete[] m_psData;
-
+    Reserve(GetStrLen(_sParam));
     CopyString(m_psData, _sParam);
     return *this;
 }
 
-bool CustomString::operator<(const CustomString& _rhs) // this가 왼쪽일지 오른쪽일지 어떻게 알고 이렇게 짠 거지??? -> 오른쪽에 있는 객체가 인수로 들어온다...
+bool CustomString::operator<(const CustomString& _rhs) const // this가 왼쪽일지 오른쪽일지 어떻게 알고 이렇게 짠 거지??? -> 오른쪽에 있는 객체가 인수로 들어온다...
 {
     if (*this == _rhs) return false;
     const int i_str_len_of_m = GetStrLen(m_psData);
@@ -155,18 +151,18 @@ bool CustomString::operator<(const CustomString& _rhs) // this가 왼쪽일지 �
     return false;
 }
 
-bool CustomString::operator<(const CustomString&& _rhs)
+bool CustomString::operator<(const CustomString&& _rhs) const
 {
     return *this < _rhs;
 }
 
-bool CustomString::operator>(const CustomString& _rhs)
+bool CustomString::operator>(const CustomString& _rhs) const
 {
     if (*this == _rhs) return false;
     return !(*this < _rhs);
 }
 
-bool CustomString::operator>(const CustomString&& _rhs)
+bool CustomString::operator>(const CustomString&& _rhs) const
 {
     return *this > _rhs;
 }
