@@ -41,6 +41,11 @@ CustomString::CustomString(char _sParam)
     SetString(_sParam);
 }
 
+CustomString::CustomString(CustomString&& _rhs)
+{
+
+}
+
 CustomString::CustomString(const char* _sParam)
 {
     cout << "CustomString(const char*)" << endl;

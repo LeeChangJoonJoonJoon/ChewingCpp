@@ -13,6 +13,7 @@ public:
 
     CustomString(const char* _sParam);
     CustomString(char _sParam);
+    CustomString(CustomString&& _rhs);
     CustomString(const CustomString& _rhs);
 
     [[nodiscard]] static inline int GetStrLen(const char* _sParam)
