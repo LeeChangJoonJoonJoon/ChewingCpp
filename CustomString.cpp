@@ -37,8 +37,7 @@ CustomString::CustomString(char _sParam)
 ////    CopyString(m_psData, s_input);
 //    m_psData = s_input;
 
-    Reserve(2);
-    m_psData[0] = _sParam;
+    SetString(_sParam);
 }
 
 CustomString::CustomString(const char* _sParam)
@@ -48,16 +47,14 @@ CustomString::CustomString(const char* _sParam)
 //    m_psData = new char[GetStrLen(_sParam) + 1];
 //    CopyString(m_psData, _sParam);
 
-    Reserve(GetStrLen(_sParam));
-    CopyString(m_psData, _sParam);
+    SetString(_sParam);
 }
 
 CustomString::CustomString(const CustomString& _rhs)
 {
     cout << "CustomString(const CustomString&)" << endl;
 
-    m_psData = new char[GetStrLen(_rhs.m_psData) + 1];
-    CopyString(m_psData, _rhs.m_psData);
+    SetString(_rhs.m_psData);
 }
 
 void CustomString::CopyString(char* _target_str, const char* _str_to_cpy)
@@ -78,41 +75,37 @@ const char* CustomString::GetString()
 
 void CustomString::SetString(const char* _sParam)
 {
-    if (m_psData) delete[] m_psData;
-    m_psData = new char[GetStrLen(_sParam) + 1];
-
+    Reserve(GetStrLen(_sParam));
     CopyString(m_psData, _sParam);
 }
 
 void CustomString::SetString(char _sParam)
 {
-    if (m_psData) delete[] m_psData;
-
-    m_psData = new char[2];
+    Reserve(2);
     m_psData[0] = _sParam;
 }
 
 void CustomString::operator+=(const char* _sParam)
 {
-    const int i_str_len_of_m = GetStrLen(m_psData);
-    const int i_str_len_of_param = GetStrLen(_sParam);
-    char* s_tmp = new char[i_str_len_of_m + i_str_len_of_param + 1];
+    int i_str_num_member = GetStrLen(m_psData);
+    int i_str_num_param = GetStrLen(_sParam);
 
-    for (int i = 0; i < i_str_len_of_m; i++)
-        s_tmp[i] = m_psData[i];
+    char* s_tmp = new char[i_str_num_member];
+    CopyString(s_tmp, m_psData);
+    Reserve(i_str_num_member + i_str_num_param);
 
-    for (int i = 0; i < i_str_len_of_param; i++)
-        s_tmp[i_str_len_of_m + i] = _sParam[i];
-
-    delete[] m_psData;
-    m_psData = s_tmp;
+    CopyString(m_psData, s_tmp);
+    CopyString(&m_psData[i_str_num_member], _sParam);
 }
 
 void CustomString::operator+=(char _sParam)
 {
-    char* s_tmp = new char[1];
-    s_tmp[0] = _sParam;
-    *this += s_tmp;
+    char* s_tmp = new char[GetStrLen(m_psData)];
+    CopyString(s_tmp, m_psData);
+    Reserve(GetStrLen(m_psData) + 1);
+
+    CopyString(m_psData, s_tmp);
+    m_psData[GetStrLen(m_psData)] = _sParam;
 }
 
 bool CustomString::operator==(const CustomString& _rhs)
