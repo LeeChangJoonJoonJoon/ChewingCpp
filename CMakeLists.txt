@@ -8,5 +8,5 @@ add_executable(ChewingCpp main.cpp
         CustomString.cpp
         CNode.h
         CNode.cpp
-        LinkedList.h
-        LinkedList.cpp)
+        CLinkedList.h
+        CLinkedList.cpp)
