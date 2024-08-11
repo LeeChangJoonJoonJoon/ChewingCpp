@@ -3,3 +3,13 @@
 //
 
 #include "CLinkedList.h"
+
+CLinkedList::CLinkedList()
+{
+
+}
+
+CLinkedList::~CLinkedList()
+{
+
+}

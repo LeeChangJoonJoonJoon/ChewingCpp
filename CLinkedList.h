@@ -8,7 +8,11 @@
 
 class CLinkedList
 {
+public:
+    CLinkedList();
+    ~CLinkedList();
 
+private:
 };
 
 

@@ -5,9 +5,12 @@
 #ifndef CHEWINGCPP_CNODE_H
 #define CHEWINGCPP_CNODE_H
 
-
+template <typename T>
 class CNode
 {
+public:
+
+private:
 
 };
 
