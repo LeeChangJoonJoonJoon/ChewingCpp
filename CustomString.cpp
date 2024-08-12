@@ -8,6 +8,10 @@
  * TODO : 여러가지 검색 알고리즘(KMP, Boyer - Moore) 들을 이용하는 find 함수를 만들어보세요. 어떤 알고리즘의 경우 미리 계산된 테이블이 필요할 텐데, 이러한 정보들 역시 class 변수로 처리하셔도 됩니다. (난이도 : 上)
  */
 
+#define BRUTE_FORCE 1
+#define BOYER_MOORE 0
+#define KNUTH_MORRIS_PRATT 0
+
 #include "CustomString.h"
 #include "bits/stdc++.h"
 #include <iostream>
@@ -183,6 +187,7 @@ bool CustomString::operator>(const CustomString&& _rhs) const
     return *this > _rhs;
 }
 
+#if BRUTE_FORCE
 bool CustomString::Contains(const char* _sParam) const
 {
     const int i_str_len_of_m = GetStrLen(m_psData);
@@ -193,16 +198,21 @@ bool CustomString::Contains(const char* _sParam) const
     for (int i = 0; i < i_str_len_of_m; i++)
     {
         if (_sParam[0] != m_psData[i]) continue;
-        if (i + i_str_len_of_param > i_str_len_of_m) return false;
+        if (i_str_len_of_m - i < i_str_len_of_param) return false;
 
-        for (int j = 0; j < i_str_len_of_param; j++)
-            if (_sParam[j] != m_psData[i + j]) return false;
+        bool b_is_diff = 0;
+        for (int j = 1; j < i_str_len_of_param; ++j) // index 0은 이미 검사.
+            if (m_psData[i + j] != _sParam[j]) b_is_diff = 1;
 
-        return true;
+        if (b_is_diff)
+            continue;
+        else
+            return true;
     }
 
     return false;
 }
+#endif
 
 void CustomString::Reserve(int _i_str_len)
 {
