@@ -139,6 +139,8 @@ CustomString& CustomString::operator=(const char* _sParam)
 
 CustomString& CustomString::operator=(const CustomString& _rhs)
 {
+    if (this == &_rhs) return *this;
+
     Reserve(GetStrLen(_rhs.m_psData));
     CopyString(m_psData, _rhs.m_psData);
 
