@@ -55,6 +55,7 @@ public:
     bool operator==(const CustomString& _rhs) const;
     bool operator==(const CustomString&& _rhs) const;
     CustomString& operator=(const char* _sParam);
+    CustomString& operator=(const CustomString& _rhs);
     bool operator<(const CustomString& _rhs) const;
     bool operator<(const CustomString&& _rhs) const;
     bool operator>(const CustomString& _rhs) const;

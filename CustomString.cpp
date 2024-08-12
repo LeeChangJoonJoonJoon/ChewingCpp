@@ -43,7 +43,7 @@ CustomString::CustomString(char _sParam)
 
 CustomString::CustomString(CustomString&& _rhs)
 {
-
+    cout << "" << endl;
 }
 
 CustomString::CustomString(const char* _sParam)
@@ -134,6 +134,14 @@ CustomString& CustomString::operator=(const char* _sParam)
 {
     Reserve(GetStrLen(_sParam));
     CopyString(m_psData, _sParam);
+    return *this;
+}
+
+CustomString& CustomString::operator=(const CustomString& _rhs)
+{
+    Reserve(GetStrLen(_rhs.m_psData));
+    CopyString(m_psData, _rhs.m_psData);
+
     return *this;
 }
 
